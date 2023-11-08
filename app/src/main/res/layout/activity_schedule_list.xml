@@ -40,15 +40,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.054" />
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/search"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:queryHint="검색어를 입력하세요"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.159" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recschedule"
+        android:layout_width="391dp"
+        android:layout_height="737dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="91dp"
+        tools:ignore="MissingConstraints"
+        tools:listitem="@layout/schedule_list_form"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

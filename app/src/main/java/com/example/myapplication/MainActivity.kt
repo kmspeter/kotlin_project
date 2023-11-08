@@ -15,5 +15,11 @@ class MainActivity : AppCompatActivity() {
 
         val intent = Intent(this, ApiActivity::class.java)
         binding.apiButton.setOnClickListener{startActivity(intent)}
+
+        val search_view = Intent(this, SearchViewActivity::class.java)
+        binding.searchButton.setOnClickListener{startActivity(search_view)}
+
+        val schedule = Intent(this, ScheduleListActivity::class.java)
+        binding.apiButton.setOnClickListener{startActivity(schedule)}
     }
 }
