@@ -13,13 +13,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val intent = Intent(this, ApiActivity::class.java)
-        binding.apiButton.setOnClickListener{startActivity(intent)}
+        val api = Intent(this, ApiActivity::class.java)
+        binding.apiButton.setOnClickListener{startActivity(api)}
 
         val search_view = Intent(this, SearchViewActivity::class.java)
         binding.searchButton.setOnClickListener{startActivity(search_view)}
 
         val schedule = Intent(this, ScheduleListActivity::class.java)
-        binding.apiButton.setOnClickListener{startActivity(schedule)}
+        binding.addButton.setOnClickListener{startActivity(schedule)}
     }
 }
