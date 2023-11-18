@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/team"
         android:layout_width="365dp"
         android:layout_height="59dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -51,12 +51,13 @@
         app:layout_constraintVertical_bias="0.054" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/matches"
         android:layout_width="365dp"
         android:layout_height="482dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.771" />
+        app:layout_constraintVertical_bias="0.771"
+        android:scrollbars="vertical" />
 </androidx.constraintlayout.widget.ConstraintLayout>

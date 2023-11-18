@@ -32,13 +32,15 @@ class MainActivity : AppCompatActivity() {
         val listButton = binding.listButton
 
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            val selectedDate = "$year-${month + 1}-$dayOfMonth"
+            val selectedDate = formatDateWithZeroPadding("$year-${month + 1}-$dayOfMonth")
             loadScheduleFromFirebase(selectedDate)
         }
     }
 
     private fun loadScheduleFromFirebase(date: String) {
-        val scheduleRef = database.reference.child("schedules").child(date)
+        // 0을 붙이도록 수정
+        val formattedDate = formatDateWithZeroPadding(date)
+        val scheduleRef = database.reference.child("schedules").child(formattedDate)
 
         scheduleRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -48,12 +50,11 @@ class MainActivity : AppCompatActivity() {
                 if (content != null) {
                     // 달력에 일정 표시
                     binding.simpleView.text = content
-
                 } else {
                     // 일정이 없는 경우 처리
                     binding.simpleView.text = "일정이 없습니다.\n여기를 눌러서 일정을 추가해주세요"
                     binding.simpleView.setOnClickListener {
-                        showAddScheduleDialog(date)
+                        showAddScheduleDialog(formattedDate)
                     }
                 }
             }
@@ -76,8 +77,10 @@ class MainActivity : AppCompatActivity() {
                 val content = editText.text.toString().trim()
 
                 if (content.isNotEmpty()) {
-                    val scheduleRef = database.reference.child("schedules").child(date)
-                    val newSchedule = Schedule(date, content)
+                    // 0을 붙이도록 수정
+                    val formattedDate = formatDateWithZeroPadding(date)
+                    val scheduleRef = database.reference.child("schedules").child(formattedDate)
+                    val newSchedule = Schedule(formattedDate, content)
                     scheduleRef.setValue(newSchedule)
 
                     Toast.makeText(this@MainActivity, "일정이 추가되었습니다.", Toast.LENGTH_SHORT).show()
@@ -93,5 +96,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun clearSchedule() {
         binding.simpleView.text = "일정이 없습니다."
+    }
+
+    private fun formatDateWithZeroPadding(date: String): String {
+        // 날짜를 0을 붙이도록 변환하는 함수
+        val parts = date.split("-")
+        val year = parts[0]
+        val month = parts[1].padStart(2, '0') // 0을 붙이도록 처리
+        val day = parts[2].padStart(2, '0') // 0을 붙이도록 처리
+        return "$year-$month-$day"
     }
 }
