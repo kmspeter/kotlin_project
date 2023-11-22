@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ScheduleListFormBinding
 
+
 class schedule_list_adapter(val schedule_data_form: Array<Schedule_data>): RecyclerView.Adapter<schedule_list_adapter.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -27,5 +28,4 @@ class schedule_list_adapter(val schedule_data_form: Array<Schedule_data>): Recyc
             binding.txtday.text = schedule_data.day
         }
     }
-
 }
