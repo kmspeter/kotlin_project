@@ -9,6 +9,7 @@
         android:id="@+id/team"
         android:layout_width="365dp"
         android:layout_height="59dp"
+        android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,14 +51,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.054" />
 
-    <TextView
-        android:id="@+id/matches"
-        android:layout_width="365dp"
-        android:layout_height="482dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/teamRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.771"
-        android:scrollbars="vertical" />
+        app:layout_constraintTop_toBottomOf="@+id/team" />
 </androidx.constraintlayout.widget.ConstraintLayout>
