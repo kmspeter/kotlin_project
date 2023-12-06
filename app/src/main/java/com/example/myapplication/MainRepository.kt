@@ -1,10 +1,10 @@
 package com.example.myapplication
 
-import android.text.format.DateUtils
 import com.google.firebase.database.*
 
 class MainRepository(private val database: FirebaseDatabase) {
 
+    // Firebase에서 일정 로드
     fun loadScheduleFromFirebase(date: String, callback: (Schedule?) -> Unit) {
         val formattedDate = DateZero.formatDateWithZeroPadding(date)
         val scheduleRef = database.reference.child("schedules").child(formattedDate)
@@ -27,6 +27,7 @@ class MainRepository(private val database: FirebaseDatabase) {
         })
     }
 
+    // Firebase에 일정 추가
     fun addScheduleToFirebase(date: String, content: String, callback: (Boolean) -> Unit) {
         val formattedDate = DateZero.formatDateWithZeroPadding(date)
         val scheduleRef = database.reference.child("schedules").child(formattedDate)

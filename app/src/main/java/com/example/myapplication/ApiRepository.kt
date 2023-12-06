@@ -4,16 +4,19 @@ import com.google.firebase.database.*
 
 class ApiRepository {
 
+    // 경기 일정 인터페이스
     interface MatchesCallback {
         fun onMatchesLoaded(matches: List<MatchSchedule>)
         fun onError(error: String)
     }
 
+    // 모든 팀 인터페이스
     interface TeamsCallback {
         fun onTeamsLoaded(teams: List<String>)
         fun onError(error: String)
     }
 
+    // Firebase에서 경기 일정 로드
     fun loadMatches(selectedTeam: String, callback: MatchesCallback) {
         val matchesRef = FirebaseDatabase.getInstance().reference.child("matches")
 
@@ -30,7 +33,7 @@ class ApiRepository {
                     }
                 }
 
-                // Filter matches for the selected team
+                // 선택된 팀과 관련된 경기 일정만 필터링
                 val teamMatches = allMatches.filter { it.team1 == selectedTeam || it.team2 == selectedTeam }
 
                 callback.onMatchesLoaded(teamMatches)
@@ -42,6 +45,7 @@ class ApiRepository {
         })
     }
 
+    // Firebase에서 팀 목록 로드
     fun loadTeams(callback: TeamsCallback) {
         val teamsRef = FirebaseDatabase.getInstance().reference.child("teams")
 
@@ -60,10 +64,11 @@ class ApiRepository {
         })
     }
 
+    // 팀 일정 저장
     fun saveSelectedTeamSchedule(matches: List<MatchSchedule>, callback: (Boolean) -> Unit) {
         val schedulesRef = FirebaseDatabase.getInstance().reference.child("schedules")
 
-        // Transform MatchSchedule objects into the desired structure
+        // MatchSchedule 객체를 일정에 맞는 구조로 변환
         val scheduleMap = mutableMapOf<String, Any>()
 
         for (match in matches) {
@@ -78,14 +83,14 @@ class ApiRepository {
             scheduleMap[scheduleItem["date"] as String] = scheduleItem
         }
 
-        // Update Firebase with the new schedule data without overwriting existing data
+        // Firebase를 업데이트하여 새로운 일정 데이터를 추가
         schedulesRef.updateChildren(scheduleMap)
             .addOnSuccessListener {
-                // Success callback
+                // 성공
                 callback(true)
             }
             .addOnFailureListener {
-                // Failure callback
+                // 실패
                 callback(false)
             }
     }

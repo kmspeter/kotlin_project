@@ -20,10 +20,12 @@ data class Team(
     val name: String = ""
 )
 
-
 class ApiActivity : AppCompatActivity() {
 
+    // View Binding 사용
     private val binding by lazy { ActivityApiBinding.inflate(layoutInflater) }
+
+    // ViewModel 및 RecyclerView 어댑터 초기화
     private lateinit var apiViewModel: ApiViewModel
     private val adapter = ApiAdapter()
 
@@ -31,20 +33,23 @@ class ApiActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        // MainActivity로 이동
         val intent = Intent(this, MainActivity::class.java)
         binding.apiBack.setOnClickListener { startActivity(intent) }
 
-        // Initialize ViewModel
+        // ViewModel 초기화
         apiViewModel = ViewModelProvider(this).get(ApiViewModel::class.java)
 
+        // apiSelect 버튼 클릭 시
         binding.apiSelect.setOnClickListener {
             showTeamSelectionDialog()
         }
 
+        // apiLoad 버튼 클릭 시
         binding.apiLoad.setOnClickListener {
             val selectedTeam = binding.team.text.toString()
             if (selectedTeam.isNotEmpty()) {
-                // Load matches using ViewModel
+                // ViewModel을 사용하여 일정 불러오기
                 apiViewModel.loadMatches(selectedTeam, object : ApiViewModel.ScheduleCallback {
                     override fun onMatchesLoaded(matches: List<MatchSchedule>, error: String?) {
                         if (error == null) {
@@ -59,10 +64,12 @@ class ApiActivity : AppCompatActivity() {
             }
         }
 
+        // RecyclerView 설정
         binding.teamRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.teamRecyclerView.adapter = adapter
     }
 
+    // 팀 목록 로드
     private fun showTeamSelectionDialog() {
         apiViewModel.loadTeams(object : ApiViewModel.TeamCallback {
             override fun onTeamsLoaded(teams: List<String>, error: String?) {
@@ -75,6 +82,7 @@ class ApiActivity : AppCompatActivity() {
         })
     }
 
+    // 로드된 팀 선택
     private fun showTeamSelectionDialog(teams: List<String>) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("팀 선택")
@@ -93,9 +101,13 @@ class ApiActivity : AppCompatActivity() {
             }
         builder.show()
     }
+
+    // 선택된 팀의 일정을 RecyclerView에 표시
     private fun showSelectedTeamSchedule(selectedTeam: String, schedules: List<MatchSchedule>) {
         adapter.data = schedules
     }
+
+    // 선택된 팀의 일정을 창으로 표시 및 일정 추가
     private fun showSelectedTeamScheduleDialog(selectedTeam: String, schedules: List<MatchSchedule>) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("$selectedTeam 일정")
@@ -120,7 +132,5 @@ class ApiActivity : AppCompatActivity() {
 
         builder.setNegativeButton("취소", null)
         builder.show()
-
-        adapter.data = schedules
     }
 }
